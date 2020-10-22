@@ -1,6 +1,13 @@
+/* eslint-disable no-param-reassign */
+
 import { IAction } from '@/types/action';
 import { IReducer } from '@/types/reducer';
-import { IStore, ISubscriber, IUnsubscribe } from '@/types/store';
+import {
+  IStore,
+  IStoreEnhancer,
+  ISubscriber,
+  IUnsubscribe,
+} from '@/types/store';
 
 /**
  * Creates a Redux store that holds the complete state tree of your app.
@@ -8,15 +15,37 @@ import { IStore, ISubscriber, IUnsubscribe } from '@/types/store';
  * @param {IReducer} reducer - At reducing function that returns the nex state tree,
  *  given the current state tree and an action to handle.
  *
- * @param {*} initialState - The initial state of your application
+ * @param {*} initialState or enhancer - The initial state of your application or
+ *  enhancer the store enhancer.
+ *
+ * @param {IStoreEnhancer=} enhancer - enhancer the store enhancer.
  *
  * @returns {IStore} - A Redux store that lets you read the state, dispatch actions and
  *   subscribe to changes.
  */
 export function createStore<S, A extends IAction>(
   reducer: IReducer<S, A>,
-  initialState?: S,
+  initialState?: S | IStoreEnhancer<S, A>,
+  enhancer?: IStoreEnhancer<S, A>,
 ): IStore<S, A> {
+  if (typeof initialState === 'function' && typeof enhancer === 'function') {
+    throw new Error(`It looks like you are passing several store enhancers to createStore(). This is not supported.
+    `);
+  }
+
+  if (typeof initialState === 'function' && typeof enhancer === 'undefined') {
+    enhancer = initialState as IStoreEnhancer<S, A>;
+    initialState = undefined;
+  }
+
+  if (typeof enhancer !== 'undefined') {
+    if (typeof enhancer !== 'function') {
+      throw new Error('Expected the enhancer to be a function.');
+    }
+
+    return enhancer(createStore, reducer, initialState as S);
+  }
+
   if (typeof reducer !== 'function') {
     throw new Error('Expected the reducer to be a function.');
   }

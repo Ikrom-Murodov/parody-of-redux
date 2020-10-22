@@ -1,5 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IAction } from '@/types/action';
+import { IReducer } from '@/types/reducer';
+
+/**
+ * A store enhancer is a higher-order function that composes a store creator
+ *  to return a new, enhanced store creator. This is similar to middleware in
+ *  that it allows you to alter the store interface in a composable way.
+ *
+ * @interface
+ */
+export interface IStoreEnhancer<S = any, A extends IAction = IAction> {
+  (
+    createStore: ICreateStore<S, A>,
+    reducer: IReducer<S, A>,
+    initialState?: S,
+  ): IStore<S, A>;
+}
+
+/**
+ * Creates a Redux store that holds the complete state tree of your app.
+ *
+ * @interface
+ */
+export interface ICreateStore<S = any, A extends IAction = IAction> {
+  (reducer: IReducer<S, A>, initialState?: S): IStore<S, A>;
+}
 
 /**
  * A callback function to be invoked on every dispatch.
