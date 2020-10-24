@@ -6,7 +6,7 @@ This library is a parody of redux library.
 
 ### Installation.
 ```
-npm parody-of-redux-library
+npm parody-of-redux
 ```
 
 # Usage example.
@@ -240,7 +240,7 @@ We can use ReturnType to infer state shape from the rootReducer.
 
 ```ts
 // src/store/index.ts
-import { combineReducers } from 'parody-of-redux-library';
+import { combineReducers } from 'parody-of-redux';
 import * as chat from './chat';
 import * as system from './system';
 
@@ -272,7 +272,7 @@ import {
   IMiddleware,
   IStore,
   ISubscriber,
-} from 'parody-of-redux-library';
+} from 'parody-of-redux';
 
 import { rootReducer, actions, TRootActions, TRootState } from './src/store';
 
@@ -316,7 +316,7 @@ const store: IStore<TRootState, TRootActions> = createStore<
 console.log(store.getState()); // initialState;
 
 // Adds a change listener. It will be called whenever the states could potentially change.
-const subscriber: ISubscriber = store.subscribe((state: TRootState) => {
+const subscriber: IUnsubscribe = store.subscribe((state: TRootState) => {
   console.log('state to changed', state);
 });
 
