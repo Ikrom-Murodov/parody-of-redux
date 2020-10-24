@@ -55,5 +55,3 @@ node_modules
 /public
 /dist
 .idea
-
-src/ts/redux-test
