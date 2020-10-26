@@ -4,6 +4,9 @@
 
 This library is a parody of redux library.
 
+###### If you like this project please show your support with a [GitHub :star:](https://github.com/Ikrom-Murodov/parody-of-redux)!
+
+
 ### Installation.
 ```
 npm parody-of-redux
@@ -271,7 +274,7 @@ import {
   applyMiddleware,
   IMiddleware,
   IStore,
-  ISubscriber,
+  IUnsubscribe,
 } from 'parody-of-redux';
 
 import { rootReducer, actions, TRootActions, TRootState } from './src/store';

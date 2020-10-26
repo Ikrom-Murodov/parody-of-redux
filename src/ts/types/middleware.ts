@@ -11,5 +11,7 @@ import { IAction } from '@/types/action';
  * @interface
  */
 export interface IMiddleware<S = any, A extends IAction = IAction> {
-  (store: { getState(): S }): (next: IDispatch<A>) => (action: A) => void;
+  (store: { getState(): S; dispatch: IDispatch<A> }): (
+    next: IDispatch<A>,
+  ) => (action: A) => void;
 }

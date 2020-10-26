@@ -25,15 +25,18 @@ export function applyMiddleware<S = any, A extends IAction = IAction>(
     initialState?: S,
   ): IStore<S, A> => {
     const store = createStore(reducer, initialState);
-    let dispatch: IDispatch<A> = (action: A) => {};
+    let dispatch: IDispatch<A> = (action: A) => {
+      throw new Error(`Dispatching while constructing your middleware is not allowed.
+        'Other middleware would not be applied to this dispatch.`);
+    };
 
     const getState = {
       getState: (): S => store.getState(),
+      dispatch: (action: A): void => dispatch(action),
     };
 
     const chain = middlewares.map((middleware) => middleware(getState));
     dispatch = combineMiddlewareIntoChain(...chain)(store.dispatch);
-
     return {
       ...store,
       dispatch,
