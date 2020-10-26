@@ -1,6 +1,6 @@
 {
   "name": "parody-of-redux",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Parody of redux library.",
   "main": "src/ts/index.js",
   "scripts": {
